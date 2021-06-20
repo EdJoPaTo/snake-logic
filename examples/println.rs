@@ -3,7 +3,7 @@
 use std::thread::sleep;
 use std::time::Duration;
 
-use snake_logic::{Point, get_next_point};
+use snake_logic::{get_next_point, Point};
 
 const RUN_SLEEP: Duration = Duration::from_millis(200);
 
