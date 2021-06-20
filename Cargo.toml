@@ -1,6 +1,10 @@
 [package]
 name = "snake-logic"
+description = "Snake playing logic"
 version = "0.1.0"
+license = "MIT"
+repository = "https://github.com/EdJoPaTo/snake-logic"
+authors = ["EdJoPaTo <snake-logic-rust@edjopato.de>", "pz1337 <32294625+pz1337@users.noreply.github.com>"]
 edition = "2018"
 
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
