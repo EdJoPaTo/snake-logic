@@ -47,8 +47,8 @@ fn repeat_previous<'a>(
     possible: &DirectionsPossible,
 ) -> Option<&'a Direction> {
     for p in previous {
-        for d in ALL_DIRECTIONS {
-            if p == &d && possible.contains(&d) {
+        for d in &ALL_DIRECTIONS {
+            if p == d && possible.contains(d) {
                 return Some(p);
             }
         }
