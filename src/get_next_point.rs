@@ -15,6 +15,11 @@ fn generate_previous(snake: &[Point]) -> Vec<Direction> {
     let mut iter = snake.iter();
     let mut headwards = iter.next().unwrap();
     for behind in iter {
+        if result.len() >= 4 {
+            // Already got all 4 directions -> done
+            break;
+        }
+
         let direction = if behind.x == headwards.x {
             if behind.y > headwards.y {
                 Direction::Up
