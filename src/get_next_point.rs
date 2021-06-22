@@ -54,7 +54,6 @@ fn repeat_previous<'a>(
 #[must_use]
 pub fn get_next_point(snake: &[Point], food: &Point, height: u8, width: u8) -> Option<Point> {
     let head = &snake[0];
-    println!("head: {:?} food: {:?}", head, food);
 
     // Directions wont leave the area. Saturating sub prevents < 0, min() prevents > width/height
     let left = Point::new(head.x.saturating_sub(1), head.y);
@@ -89,16 +88,6 @@ pub fn get_next_point(snake: &[Point], food: &Point, height: u8, width: u8) -> O
 
     let previous = generate_previous(snake);
 
-    #[cfg(debug_assertions)]
-    {
-        println!("{} possible", possible);
-        println!("{} desired", desired);
-        println!("{} priority", priority);
-        println!("{} possible_desired", possible_desired);
-        println!("{} possible_desired_priority", possible_desired_priority);
-        println!("previous {:?}", previous);
-    }
-
     let direction = if let Some(direction) = possible_desired_priority.any() {
         Some(direction)
     } else if let Some(direction) = possible_desired.any() {
@@ -109,8 +98,18 @@ pub fn get_next_point(snake: &[Point], food: &Point, height: u8, width: u8) -> O
         possible.any()
     };
 
-    if let Some(direction) = direction {
+    #[cfg(debug_assertions)]
+    {
+        println!("{} possible", possible);
+        println!("{} desired", desired);
+        println!("{} priority", priority);
+        println!("{} possible_desired", possible_desired);
+        println!("{} possible_desired_priority", possible_desired_priority);
+        println!("previous {:?}", previous);
         println!("decided for {:?}", direction);
+    }
+
+    if let Some(direction) = direction {
         let point = match direction {
             Direction::Left => left,
             Direction::Right => right,
