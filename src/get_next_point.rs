@@ -57,7 +57,7 @@ fn repeat_previous<'a>(
 }
 
 #[must_use]
-pub fn get_next_point(snake: &[Point], food: &Point, height: u8, width: u8) -> Option<Point> {
+pub fn get_next_point(height: u8, width: u8, snake: &[Point], food: &Point) -> Option<Point> {
     let head = &snake[0];
 
     // Directions wont leave the area. Saturating sub prevents < 0, min() prevents > width/height

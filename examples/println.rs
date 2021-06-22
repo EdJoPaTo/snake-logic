@@ -60,7 +60,7 @@ fn snake(width: u8, height: u8) -> usize {
         loop {
             print_field(width, height, &snake, &food);
 
-            let next_point = if let Some(point) = get_next_point(&snake, &food, height, width) {
+            let next_point = if let Some(point) = get_next_point(height, width, &snake, &food) {
                 // Hits itself
                 if snake.contains(&point) {
                     eprintln!("snake hit itself");
