@@ -14,19 +14,20 @@ fn print_field(width: u8, height: u8, snake: &[Point], food: &Point) {
 
     for y in 0..height {
         print!("{:>3}", y);
+        let mut line = String::with_capacity(width.into());
         for x in 0..width {
             let p = Point::new(x, y);
             if &p == food {
-                print!("F");
+                line += "F";
             } else if p == snake[0] {
-                print!("H");
+                line += "H";
             } else if snake.contains(&p) {
-                print!("x");
+                line += "x";
             } else {
-                print!(" ");
+                line += " ";
             }
         }
-        println!();
+        println!("{}", line);
     }
 }
 
