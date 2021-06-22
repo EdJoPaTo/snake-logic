@@ -5,8 +5,6 @@ use std::time::Duration;
 
 use snake_logic::{get_next_point, Point};
 
-const RUN_SLEEP: Duration = Duration::from_millis(200);
-
 fn print_field(width: u8, height: u8, snake: &[Point], food: &Point) {
     print!("   ");
     for x in 0..width {
@@ -82,7 +80,7 @@ fn main() {
             }
 
             snake.insert(0, next_point);
-            sleep(RUN_SLEEP);
+            sleep(Duration::from_millis(200));
         }
     }
 }
