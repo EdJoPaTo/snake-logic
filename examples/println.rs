@@ -7,6 +7,31 @@ use snake_logic::{get_next_point, Point};
 
 const RUN_SLEEP: Duration = Duration::from_millis(200);
 
+fn print_field(width: u8, height: u8, snake: &[Point], food: &Point) {
+    print!("   ");
+    for x in 0..width {
+        print!("{:1}", x % 10);
+    }
+    println!();
+
+    for y in 0..height {
+        print!("{:>3}", y);
+        for x in 0..width {
+            let p = Point::new(x, y);
+            if &p == food {
+                print!("F");
+            } else if p == snake[0] {
+                print!("H");
+            } else if snake.contains(&p) {
+                print!("x");
+            } else {
+                print!(" ");
+            }
+        }
+        println!();
+    }
+}
+
 fn main() {
     let width = 16;
     let height = 16;
@@ -26,6 +51,8 @@ fn main() {
         };
 
         loop {
+            print_field(width, height, &snake, &food);
+
             let next_point = if let Some(point) = get_next_point(&snake, &food, height, width) {
                 // Hits itself
                 if snake.contains(&point) {
