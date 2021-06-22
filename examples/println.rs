@@ -89,7 +89,14 @@ fn snake(width: u8, height: u8) {
             );
 
             if next_point == food {
-                food = Point::random(width, height);
+                loop {
+                    let next_food = Point::random(width, height);
+                    // Dont create food on snake
+                    if !snake.contains(&next_food) {
+                        food = next_food;
+                        break;
+                    }
+                }
             } else {
                 snake.pop().unwrap();
             }
