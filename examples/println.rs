@@ -33,6 +33,10 @@ fn print_field(width: u8, height: u8, snake: &[Point], food: &Point) {
 fn main() {
     let width = 16;
     let height = 16;
+    snake(width, height);
+}
+
+fn snake(width: u8, height: u8) {
     let maximal_length_possible = u16::from(width) * u16::from(height);
     loop {
         let mut food = Point::random(width, height);
@@ -55,12 +59,22 @@ fn main() {
             let next_point = if let Some(point) = get_next_point(&snake, &food, height, width) {
                 // Hits itself
                 if snake.contains(&point) {
-                    panic!("snake hit itself");
+                    eprintln!(
+                        "snake hit itself at length {:3}/{}",
+                        snake.len(),
+                        maximal_length_possible
+                    );
+                    return;
                 }
 
                 point
             } else {
-                panic!("snake has nowhere to go");
+                eprintln!(
+                    "snake has nowhere to go {:3}/{}",
+                    snake.len(),
+                    maximal_length_possible
+                );
+                return;
             };
 
             println!(
