@@ -79,23 +79,10 @@ pub fn get_next_point(snake: &[Point], food: &Point, height: u8, width: u8) -> O
         head.y < food.y,
     );
 
-    let priority = DirectionsPossible::from_bools(
-        head.y == food.y && head.x > food.x, // || prio && start.x > food.x,
-        head.y == food.y && head.x < food.x, // || prio && start.x < food.x,
-        head.x == food.x && head.y > food.y,
-        head.x == food.x && head.y < food.y,
-    );
-
-    //prio = false;
-
     let possible_desired = DirectionsPossible::intersection(&possible, &desired);
-    let possible_desired_priority = DirectionsPossible::intersection(&possible_desired, &priority);
-
     let previous = generate_previous(snake);
 
-    let direction = if let Some(direction) = possible_desired_priority.any() {
-        Some(direction)
-    } else if let Some(direction) = possible_desired.any() {
+    let direction = if let Some(direction) = possible_desired.single() {
         Some(direction)
     } else if let Some(direction) = repeat_previous(&previous, &possible) {
         Some(direction)
@@ -107,9 +94,7 @@ pub fn get_next_point(snake: &[Point], food: &Point, height: u8, width: u8) -> O
     {
         println!("{} possible", possible);
         println!("{} desired", desired);
-        println!("{} priority", priority);
         println!("{} possible_desired", possible_desired);
-        println!("{} possible_desired_priority", possible_desired_priority);
         println!("previous {:?}", previous);
         println!("decided for {:?}", direction);
     }
