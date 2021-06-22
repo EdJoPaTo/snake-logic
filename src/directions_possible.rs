@@ -56,6 +56,11 @@ impl DirectionsPossible {
     }
 
     #[must_use]
+    pub fn has_multiple(&self) -> bool {
+        self.options.len() > 1
+    }
+
+    #[must_use]
     pub fn is_empty(&self) -> bool {
         self.options.is_empty()
     }

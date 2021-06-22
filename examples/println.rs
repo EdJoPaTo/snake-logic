@@ -3,7 +3,7 @@
 use std::thread::sleep;
 use std::time::Duration;
 
-use snake_logic::{get_next_point, Point};
+use snake_logic::{get_next_point, Point, State};
 
 fn print_field(width: u8, height: u8, snake: &[Point], food: &Point) {
     print!("   ");
@@ -56,22 +56,24 @@ fn snake(width: u8, height: u8) -> usize {
             };
             vec![start, end]
         };
+        let mut state = State::new(&snake);
 
         loop {
             print_field(width, height, &snake, &food);
 
-            let next_point = if let Some(point) = get_next_point(width, height, &snake, &food) {
-                // Hits itself
-                if snake.contains(&point) {
-                    eprintln!("snake hit itself");
-                    return snake.len();
-                }
+            let next_point =
+                if let Some(point) = get_next_point(width, height, &snake, &food, &mut state) {
+                    // Hits itself
+                    if snake.contains(&point) {
+                        eprintln!("snake hit itself");
+                        return snake.len();
+                    }
 
-                point
-            } else {
-                eprintln!("snake has nowhere to go");
-                return snake.len();
-            };
+                    point
+                } else {
+                    eprintln!("snake has nowhere to go");
+                    return snake.len();
+                };
 
             println!(
                 "snake length {:5}/{:5} goes to {:3} {:3}  food is at {:3} {:3}",

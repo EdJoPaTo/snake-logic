@@ -5,5 +5,5 @@ mod point;
 
 pub use direction::{Direction, ALL_DIRECTIONS};
 pub use directions_possible::DirectionsPossible;
-pub use get_next_point::get_next_point;
+pub use get_next_point::{get_next_point, State};
 pub use point::Point;
