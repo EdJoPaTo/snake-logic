@@ -4,6 +4,8 @@ use crate::direction::{Direction, ALL_DIRECTIONS};
 use crate::directions_possible::DirectionsPossible;
 use crate::point::Point;
 
+/// Contains the previous chosen directions.
+/// Contains up to the 4 directions in the order of last usage.
 fn generate_previous(snake: &[Point]) -> Vec<Direction> {
     let mut result = Vec::new();
     if snake.len() < 2 {
@@ -11,24 +13,26 @@ fn generate_previous(snake: &[Point]) -> Vec<Direction> {
     }
 
     let mut iter = snake.iter();
-    let mut last = iter.next().unwrap();
-    for p in iter {
-        result.push(if p.x == last.x {
-            if p.y > last.y {
+    let mut headwards = iter.next().unwrap();
+    for behind in iter {
+        let direction = if behind.x == headwards.x {
+            if behind.y > headwards.y {
                 Direction::Up
             } else {
                 Direction::Down
             }
         } else {
             #[allow(clippy::collapsible_else_if)]
-            if p.x > last.x {
-                Direction::Right
-            } else {
+            if behind.x > headwards.x {
                 Direction::Left
+            } else {
+                Direction::Right
             }
-        });
-
-        last = p;
+        };
+        if !result.contains(&direction) {
+            result.push(direction);
+        }
+        headwards = behind;
     }
     result
 }
@@ -83,6 +87,8 @@ pub fn get_next_point(snake: &[Point], food: &Point, height: u8, width: u8) -> O
     let possible_desired = DirectionsPossible::intersection(&possible, &desired);
     let possible_desired_priority = DirectionsPossible::intersection(&possible_desired, &priority);
 
+    let previous = generate_previous(snake);
+
     #[cfg(debug_assertions)]
     {
         println!("{} possible", possible);
@@ -90,9 +96,9 @@ pub fn get_next_point(snake: &[Point], food: &Point, height: u8, width: u8) -> O
         println!("{} priority", priority);
         println!("{} possible_desired", possible_desired);
         println!("{} possible_desired_priority", possible_desired_priority);
+        println!("previous {:?}", previous);
     }
 
-    let previous = generate_previous(snake);
     let direction = if let Some(direction) = possible_desired_priority.any() {
         Some(direction)
     } else if let Some(direction) = possible_desired.any() {
