@@ -35,6 +35,7 @@ fn print_field(width: u8, height: u8, snake: &[Point], food: &Point) {
 fn main() {
     let width = 16;
     let height = 16;
+    let maximal_length_possible = u16::from(width) * u16::from(height);
     loop {
         let mut food = Point::random(width, height);
         let mut snake = {
@@ -65,8 +66,9 @@ fn main() {
             };
 
             println!(
-                "snake length {:3} goes to {:3} {:3}  food is at {:3} {:3}",
+                "snake length {:3}/{:5} goes to {:3} {:3}  food is at {:3} {:3}",
                 snake.len(),
+                maximal_length_possible,
                 next_point.x,
                 next_point.y,
                 food.x,
