@@ -1,7 +1,7 @@
 [package]
 name = "snake-logic"
 description = "Snake playing logic"
-version = "0.1.0"
+version = "0.2.1"
 license = "MIT"
 repository = "https://github.com/EdJoPaTo/snake-logic"
 authors = ["EdJoPaTo <snake-logic-rust@edjopato.de>", "pz1337 <32294625+pz1337@users.noreply.github.com>"]
