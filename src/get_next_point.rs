@@ -1,60 +1,10 @@
 #![allow(clippy::option_if_let_else)]
 
-use crate::direction::{Direction, ALL_DIRECTIONS};
+use crate::direction::Direction;
 use crate::directions_possible::DirectionsPossible;
 use crate::point::Point;
 
-/// Contains the previous chosen directions.
-/// Contains up to the 4 directions in the order of last usage.
-fn generate_previous(snake: &[Point]) -> Vec<Direction> {
-    let mut result = Vec::new();
-    if snake.len() < 2 {
-        return result;
-    }
-
-    let mut iter = snake.iter();
-    let mut headwards = iter.next().unwrap();
-    for behind in iter {
-        if result.len() >= 4 {
-            // Already got all 4 directions -> done
-            break;
-        }
-
-        let direction = if behind.x == headwards.x {
-            if behind.y > headwards.y {
-                Direction::Up
-            } else {
-                Direction::Down
-            }
-        } else {
-            #[allow(clippy::collapsible_else_if)]
-            if behind.x > headwards.x {
-                Direction::Left
-            } else {
-                Direction::Right
-            }
-        };
-        if !result.contains(&direction) {
-            result.push(direction);
-        }
-        headwards = behind;
-    }
-    result
-}
-
-fn repeat_previous<'a>(
-    previous: &'a [Direction],
-    possible: &DirectionsPossible,
-) -> Option<&'a Direction> {
-    for p in previous {
-        for d in &ALL_DIRECTIONS {
-            if p == d && possible.contains(d) {
-                return Some(p);
-            }
-        }
-    }
-    None
-}
+mod previous;
 
 #[must_use]
 pub fn get_next_point(width: u8, height: u8, snake: &[Point], food: &Point) -> Option<Point> {
@@ -80,11 +30,11 @@ pub fn get_next_point(width: u8, height: u8, snake: &[Point], food: &Point) -> O
     );
 
     let possible_desired = DirectionsPossible::intersection(&possible, &desired);
-    let previous = generate_previous(snake);
+    let previous = previous::generate(snake);
 
     let direction = if let Some(direction) = possible_desired.single() {
         Some(direction)
-    } else if let Some(direction) = repeat_previous(&previous, &possible) {
+    } else if let Some(direction) = previous::repeat(&previous, &possible) {
         Some(direction)
     } else {
         possible.any()
