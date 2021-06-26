@@ -3,13 +3,10 @@ use crate::{Direction, DirectionsPossible, Point, ALL_DIRECTIONS};
 /// Contains the previous chosen directions.
 /// Contains up to the 4 directions in the order of last usage.
 pub fn generate(snake: &[Point]) -> Vec<Direction> {
-    let mut result = Vec::new();
-    if snake.len() < 2 {
-        return result;
-    }
+    let mut result = Vec::with_capacity(4);
 
     let mut iter = snake.iter();
-    let mut headwards = iter.next().unwrap();
+    let mut headwards = iter.next().expect("Snake has to have a head");
     for behind in iter {
         if result.len() >= 3 {
             // 3 -> one is missing
