@@ -11,8 +11,13 @@ pub fn generate(snake: &[Point]) -> Vec<Direction> {
     let mut iter = snake.iter();
     let mut headwards = iter.next().unwrap();
     for behind in iter {
-        if result.len() >= 4 {
-            // Already got all 4 directions -> done
+        if result.len() >= 3 {
+            // 3 -> one is missing
+            for d in &ALL_DIRECTIONS {
+                if !result.contains(d) {
+                    result.push(d.clone());
+                }
+            }
             break;
         }
 
