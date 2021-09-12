@@ -1,3 +1,5 @@
+#![forbid(unsafe_code)]
+
 mod direction;
 mod directions_possible;
 mod get_next_point;
