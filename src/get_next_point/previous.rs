@@ -1,4 +1,4 @@
-use crate::direction::{ALL_DIRECTIONS, Direction};
+use crate::direction::{Direction, ALL_DIRECTIONS};
 use crate::directions_possible::DirectionsPossible;
 use crate::point::Point;
 
