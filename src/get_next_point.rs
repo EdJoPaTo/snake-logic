@@ -7,7 +7,7 @@ use crate::point::Point;
 mod previous;
 
 #[must_use]
-pub fn get_next_point(width: u8, height: u8, snake: &[Point], food: &Point) -> Option<Point> {
+pub fn get_next_point(width: u8, height: u8, snake: &[Point], food: Point) -> Option<Point> {
     let head = &snake[0];
 
     // Directions wont leave the area. Saturating sub prevents < 0, min() prevents > width/height
@@ -34,7 +34,7 @@ pub fn get_next_point(width: u8, height: u8, snake: &[Point], food: &Point) -> O
 
     let direction = if let Some(direction) = possible_desired.single() {
         Some(direction)
-    } else if let Some(direction) = previous::repeat(&previous, &possible) {
+    } else if let Some(direction) = previous::repeat(&previous, possible) {
         Some(direction)
     } else {
         possible.any()

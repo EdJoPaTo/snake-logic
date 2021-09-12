@@ -1,6 +1,6 @@
 use rand::Rng;
 
-#[derive(Debug, PartialEq)]
+#[derive(Debug, Clone, Copy, PartialEq, Eq)]
 pub struct Point {
     pub x: u8,
     pub y: u8,
@@ -8,7 +8,7 @@ pub struct Point {
 
 impl Point {
     #[must_use]
-    pub fn new(x: u8, y: u8) -> Self {
+    pub const fn new(x: u8, y: u8) -> Self {
         Self { x, y }
     }
 

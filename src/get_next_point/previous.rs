@@ -1,4 +1,6 @@
-use crate::{Direction, DirectionsPossible, Point, ALL_DIRECTIONS};
+use crate::direction::{ALL_DIRECTIONS, Direction};
+use crate::directions_possible::DirectionsPossible;
+use crate::point::Point;
 
 /// Contains the previous chosen directions.
 /// Contains up to the 4 directions in the order of last usage.
@@ -12,7 +14,7 @@ pub fn generate(snake: &[Point]) -> Vec<Direction> {
             // 3 -> one is missing
             for d in &ALL_DIRECTIONS {
                 if !result.contains(d) {
-                    result.push(d.clone());
+                    result.push(*d);
                 }
             }
             break;
@@ -40,14 +42,14 @@ pub fn generate(snake: &[Point]) -> Vec<Direction> {
     result
 }
 
-pub fn repeat<'a, P>(previous: P, possible: &DirectionsPossible) -> Option<&'a Direction>
+pub fn repeat<'a, P>(previous: P, possible: DirectionsPossible) -> Option<Direction>
 where
     P: IntoIterator<Item = &'a Direction>,
 {
     for p in previous {
         for d in &ALL_DIRECTIONS {
-            if p == d && possible.contains(d) {
-                return Some(p);
+            if p == d && possible.contains(*d) {
+                return Some(*p);
             }
         }
     }

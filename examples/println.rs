@@ -5,7 +5,7 @@ use std::time::Duration;
 
 use snake_logic::{get_next_point, Point};
 
-fn print_field(width: u8, height: u8, snake: &[Point], food: &Point) {
+fn print_field(width: u8, height: u8, snake: &[Point], food: Point) {
     print!("   ");
     for x in 0..width {
         print!("{:1}", x % 10);
@@ -17,7 +17,7 @@ fn print_field(width: u8, height: u8, snake: &[Point], food: &Point) {
         let mut line = String::with_capacity(width.into());
         for x in 0..width {
             let p = Point::new(x, y);
-            if &p == food {
+            if p == food {
                 line += "F";
             } else if p == snake[0] {
                 line += "H";
@@ -58,9 +58,9 @@ fn snake(width: u8, height: u8) -> usize {
         };
 
         loop {
-            print_field(width, height, &snake, &food);
+            print_field(width, height, &snake, food);
 
-            let next_point = if let Some(point) = get_next_point(width, height, &snake, &food) {
+            let next_point = if let Some(point) = get_next_point(width, height, &snake, food) {
                 // Hits itself
                 if snake.contains(&point) {
                     eprintln!("snake hit itself");
