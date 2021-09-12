@@ -40,7 +40,7 @@ pub fn get_next_point(width: u8, height: u8, snake: &[Point], food: Point) -> Op
         possible.any()
     };
 
-    #[cfg(debug_assertions)]
+    #[cfg(feature = "debug")]
     {
         println!("{} possible", possible);
         println!("{} desired", desired);
