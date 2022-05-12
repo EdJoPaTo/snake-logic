@@ -4,8 +4,6 @@ use crate::direction::Direction;
 use crate::directions_possible::DirectionsPossible;
 use crate::point::Point;
 
-mod previous;
-
 #[must_use]
 pub fn get_next_point(width: u8, height: u8, snake: &[Point], food: Point) -> Option<Point> {
     let head = &snake[0];
@@ -30,11 +28,10 @@ pub fn get_next_point(width: u8, height: u8, snake: &[Point], food: Point) -> Op
     );
 
     let possible_desired = DirectionsPossible::intersection(&possible, &desired);
-    let previous = previous::generate(snake);
 
     let direction = if let Some(direction) = possible_desired.single() {
         Some(direction)
-    } else if let Some(direction) = previous::repeat(&previous, possible) {
+    } else if let Some(direction) = repeat_previous(snake, possible) {
         Some(direction)
     } else {
         possible.any()
@@ -45,7 +42,6 @@ pub fn get_next_point(width: u8, height: u8, snake: &[Point], food: Point) -> Op
         println!("{} possible", possible);
         println!("{} desired", desired);
         println!("{} possible_desired", possible_desired);
-        println!("previous {:?}", previous);
         println!("decided for {:?}", direction);
     }
 
@@ -60,4 +56,30 @@ pub fn get_next_point(width: u8, height: u8, snake: &[Point], food: Point) -> Op
     } else {
         None
     }
+}
+
+fn repeat_previous(snake: &[Point], possible: DirectionsPossible) -> Option<Direction> {
+    let mut iter = snake.iter();
+    let mut headwards = iter.next().expect("Snake has to have a head");
+    for behind in iter {
+        let direction = if behind.x == headwards.x {
+            if behind.y > headwards.y {
+                Direction::Up
+            } else {
+                Direction::Down
+            }
+        } else {
+            #[allow(clippy::collapsible_else_if)]
+            if behind.x > headwards.x {
+                Direction::Left
+            } else {
+                Direction::Right
+            }
+        };
+        if possible.contains(direction) {
+            return Some(direction);
+        }
+        headwards = behind;
+    }
+    None
 }
