@@ -8,6 +8,19 @@ on:
     - cron: '42 2 * * 6' # weekly on Saturday 2:42 UTC
 
 jobs:
+  rustfmt:
+    runs-on: ubuntu-22.04
+    steps:
+      - name: Setup Rust
+        shell: bash -eux {0}
+        run: |
+          rustup --version
+          rustup show
+          rustup toolchain install stable --profile minimal --component rustfmt
+          rustup default stable
+      - uses: actions/checkout@v3
+      - run: cargo fmt --check --verbose
+
   test:
     name: Test ${{ matrix.toolchain }} ${{ matrix.os }} ${{ matrix.features }}
     runs-on: ${{ matrix.os }}
@@ -18,8 +31,8 @@ jobs:
         toolchain:
           - stable
         os:
-          - ubuntu-20.04
-          - macos-11
+          - ubuntu-22.04
+          - macos-12
           - windows-2022
         clippyargs:
           - -D clippy::pedantic -D warnings
@@ -30,21 +43,21 @@ jobs:
         include:
           # Check future versions and maybe get some glances on soon to be lints
           - toolchain: beta
-            os: ubuntu-20.04
+            os: ubuntu-22.04
             features: --all-features
             clippyargs: -W clippy::pedantic -W clippy::nursery
           - toolchain: nightly
-            os: ubuntu-20.04
+            os: ubuntu-22.04
             features: --all-features
             clippyargs: -W clippy::pedantic
     steps:
       - name: Setup Rust
-        uses: actions-rs/toolchain@v1
-        with:
-          components: clippy
-          override: true
-          profile: minimal
-          toolchain: ${{ matrix.toolchain }}
+        shell: bash -eux {0}
+        run: |
+          rustup --version
+          rustup show
+          rustup toolchain install ${{ matrix.toolchain }} --profile minimal --component clippy
+          rustup default ${{ matrix.toolchain }}
 
       - uses: actions/checkout@v3
 
@@ -81,20 +94,20 @@ jobs:
       matrix:
         include:
           - triple: x86_64-unknown-linux-gnu
-            os: ubuntu-20.04
+            os: ubuntu-22.04
           - triple: aarch64-unknown-linux-gnu
-            os: ubuntu-20.04
+            os: ubuntu-22.04
           - triple: armv7-unknown-linux-gnueabihf
-            os: ubuntu-20.04
+            os: ubuntu-22.04
           - triple: arm-unknown-linux-gnueabihf
-            os: ubuntu-20.04
+            os: ubuntu-22.04
           - triple: riscv64gc-unknown-linux-gnu
-            os: ubuntu-20.04
+            os: ubuntu-22.04
 
           - triple: x86_64-apple-darwin
-            os: macos-11
+            os: macos-12
           - triple: aarch64-apple-darwin
-            os: macos-11
+            os: macos-12
 
           - triple: x86_64-pc-windows-msvc
             os: windows-2022
@@ -102,20 +115,17 @@ jobs:
             os: windows-2022
     steps:
       - name: Setup Rust
-        uses: actions-rs/toolchain@v1
-        with:
-          override: true
-          profile: minimal
-          target: ${{ matrix.triple }}
-          toolchain: stable
+        shell: bash -eux {0}
+        run: |
+          rustup --version
+          rustup show
+          rustup toolchain install stable --profile minimal --target ${{ matrix.triple }}
+          rustup default stable
 
       - uses: actions/checkout@v3
 
       - name: Fetch dependencies
-        uses: actions-rs/cargo@v1
-        with:
-          command: fetch
-          args: --verbose
+        run: cargo fetch --verbose
 
       - name: Build
         uses: actions-rs/cargo@v1
