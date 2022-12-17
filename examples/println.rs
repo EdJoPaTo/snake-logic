@@ -13,7 +13,7 @@ fn print_field(width: u8, height: u8, snake: &[Point], food: Point) {
     println!();
 
     for y in 0..height {
-        print!("{:>3}", y);
+        print!("{y:>3}");
         let mut line = String::with_capacity(width.into());
         for x in 0..width {
             let p = Point::new(x, y);
@@ -27,7 +27,7 @@ fn print_field(width: u8, height: u8, snake: &[Point], food: Point) {
                 line += " ";
             }
         }
-        println!("{}", line);
+        println!("{line}");
     }
 }
 
@@ -37,7 +37,7 @@ fn main() {
     let maximal_length_possible = u16::from(width) * u16::from(height);
 
     let score = snake(width, height);
-    println!("score: {:5}/{:5}", score, maximal_length_possible);
+    println!("score: {score:5}/{maximal_length_possible:5}");
 }
 
 fn snake(width: u8, height: u8) -> usize {

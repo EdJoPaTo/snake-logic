@@ -39,10 +39,10 @@ pub fn get_next_point(width: u8, height: u8, snake: &[Point], food: Point) -> Op
 
     #[cfg(feature = "debug")]
     {
-        println!("{} possible", possible);
-        println!("{} desired", desired);
-        println!("{} possible_desired", possible_desired);
-        println!("decided for {:?}", direction);
+        println!("{possible} possible");
+        println!("{desired} desired");
+        println!("{possible_desired} possible_desired");
+        println!("decided for {direction:?}");
     }
 
     if let Some(direction) = direction {
