@@ -86,9 +86,8 @@ impl DirectionsPossible {
     }
 }
 
-#[cfg(feature = "std")]
 impl core::fmt::Display for DirectionsPossible {
-    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+    fn fmt(&self, f: &mut core::fmt::Formatter<'_>) -> core::fmt::Result {
         if self.is_empty() {
             f.write_str("None")
         } else {

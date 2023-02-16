@@ -1,7 +1,7 @@
 // run as: cargo run --example=println
 
+use core::time::Duration;
 use std::thread::sleep;
-use std::time::Duration;
 
 use snake_logic::{get_next_point, Point};
 

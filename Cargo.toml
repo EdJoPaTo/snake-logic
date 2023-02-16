@@ -10,10 +10,10 @@ edition = "2021"
 
 [[example]]
 name = "println"
-required-features = ["debug", "rand", "std"]
+required-features = ["debug", "rand"]
 
 [features]
-default = ["debug", "rand", "std"]
+default = ["debug", "rand"]
 debug = ["std"]
 std = []
 
