@@ -14,19 +14,7 @@ pub struct DirectionsPossible {
 impl DirectionsPossible {
     #[must_use]
     pub const fn from_bools(left: bool, right: bool, up: bool, down: bool) -> Self {
-        let mut options = 0;
-        if left {
-            options += 1;
-        }
-        if right {
-            options += 1;
-        }
-        if up {
-            options += 1;
-        }
-        if down {
-            options += 1;
-        }
+        let options = left as usize + right as usize + up as usize + down as usize;
         Self {
             options,
             left,
