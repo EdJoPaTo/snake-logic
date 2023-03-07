@@ -6,7 +6,7 @@ use crate::point::Point;
 
 #[must_use]
 pub fn get_next_point(width: u8, height: u8, snake: &[Point], food: Point) -> Option<Point> {
-    let head = &snake[0];
+    let head = snake.first().expect("Snake has to have a head");
 
     // Directions wont leave the area. Saturating sub prevents < 0, min() prevents > width/height
     let left = Point::new(head.x.saturating_sub(1), head.y);
