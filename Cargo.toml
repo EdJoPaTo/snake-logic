@@ -13,7 +13,7 @@ name = "println"
 required-features = ["debug", "rand"]
 
 [features]
-default = ["debug", "rand"]
+default = ["rand"]
 debug = ["std"]
 std = []
 
