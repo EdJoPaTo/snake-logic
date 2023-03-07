@@ -1,5 +1,3 @@
-#![allow(clippy::option_if_let_else)]
-
 use crate::direction::Direction;
 use crate::directions_possible::DirectionsPossible;
 use crate::point::Point;
@@ -29,13 +27,10 @@ pub fn get_next_point(width: u8, height: u8, snake: &[Point], food: Point) -> Op
 
     let possible_desired = DirectionsPossible::intersection(&possible, &desired);
 
-    let direction = if let Some(direction) = possible_desired.single() {
-        Some(direction)
-    } else if let Some(direction) = repeat_previous(snake, possible) {
-        Some(direction)
-    } else {
-        possible.any()
-    };
+    let direction = possible_desired
+        .single()
+        .or_else(|| repeat_previous(snake, possible))
+        .or_else(|| possible.any());
 
     #[cfg(feature = "debug")]
     {
@@ -45,17 +40,13 @@ pub fn get_next_point(width: u8, height: u8, snake: &[Point], food: Point) -> Op
         println!("decided for {direction:?}");
     }
 
-    if let Some(direction) = direction {
-        let point = match direction {
-            Direction::Left => left,
-            Direction::Right => right,
-            Direction::Up => up,
-            Direction::Down => down,
-        };
-        Some(point)
-    } else {
-        None
-    }
+    let point = match direction? {
+        Direction::Left => left,
+        Direction::Right => right,
+        Direction::Up => up,
+        Direction::Down => down,
+    };
+    Some(point)
 }
 
 fn repeat_previous(snake: &[Point], possible: DirectionsPossible) -> Option<Direction> {
