@@ -1,5 +1,6 @@
 use crate::direction::Direction;
 
+/// State which directions are possible or not.
 #[allow(clippy::struct_excessive_bools)]
 #[derive(Clone, Copy)]
 pub struct DirectionsPossible {
@@ -34,6 +35,8 @@ impl DirectionsPossible {
         )
     }
 
+    /// When only one [`Direction`](crate::Direction) is possible, it is returned.
+    /// When no or more than one Direction is possible, `None` is returned.
     #[must_use]
     pub const fn single(&self) -> Option<Direction> {
         if self.options == 1 {
@@ -43,6 +46,7 @@ impl DirectionsPossible {
         }
     }
 
+    /// Returns any of the possible [`Direction`s](crate::Direction).
     #[must_use]
     pub const fn any(&self) -> Option<Direction> {
         if self.left {
@@ -68,6 +72,7 @@ impl DirectionsPossible {
         }
     }
 
+    /// Returns `true` when there is no possible [`Direction`](crate::Direction).
     #[must_use]
     pub const fn is_empty(&self) -> bool {
         self.options == 0

@@ -1,3 +1,4 @@
+/// `Left`, `Right`, `Up` and `Down`.
 #[derive(Debug, Hash, Clone, Copy, PartialEq, Eq, PartialOrd, Ord)]
 pub enum Direction {
     Left,
@@ -6,6 +7,7 @@ pub enum Direction {
     Down,
 }
 
+/// Array of all possible [`Direction`s](crate::Direction).
 pub const ALL_DIRECTIONS: [Direction; 4] = [
     Direction::Left,
     Direction::Right,

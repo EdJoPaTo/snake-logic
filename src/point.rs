@@ -1,3 +1,4 @@
+/// Point on a `u8`*`u8` grid.
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]
 pub struct Point {
     pub x: u8,

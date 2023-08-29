@@ -2,6 +2,10 @@ use crate::direction::Direction;
 use crate::directions_possible::DirectionsPossible;
 use crate::point::Point;
 
+/// Calculate a point towards the `food` for the given `snake` on a board with `width` and `height`.
+///
+/// # Panics
+/// Panics when the `snake` has no head (needs len >= 1)
 #[must_use]
 pub fn get_next_point(width: u8, height: u8, snake: &[Point], food: Point) -> Option<Point> {
     let head = snake.first().expect("Snake has to have a head");
