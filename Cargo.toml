@@ -17,5 +17,11 @@ default = ["rand"]
 debug = ["std"]
 std = []
 
+[lints.rust]
+unsafe_code = "forbid"
+[lints.clippy]
+pedantic = "warn"
+nursery = "warn"
+
 [dependencies]
 rand = { version = "0.8", optional = true }
