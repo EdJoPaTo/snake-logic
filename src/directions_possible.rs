@@ -84,26 +84,11 @@ impl core::fmt::Display for DirectionsPossible {
         if self.is_empty() {
             fmt.write_str("None")
         } else {
-            fmt.write_str(if self.contains(Direction::Left) {
-                "L"
-            } else {
-                " "
-            })?;
-            fmt.write_str(if self.contains(Direction::Right) {
-                "R"
-            } else {
-                " "
-            })?;
-            fmt.write_str(if self.contains(Direction::Up) {
-                "U"
-            } else {
-                " "
-            })?;
-            fmt.write_str(if self.contains(Direction::Down) {
-                "D"
-            } else {
-                " "
-            })
+            use Direction::{Down, Left, Right, Up};
+            fmt.write_str(if self.contains(Left) { "L" } else { " " })?;
+            fmt.write_str(if self.contains(Right) { "R" } else { " " })?;
+            fmt.write_str(if self.contains(Up) { "U" } else { " " })?;
+            fmt.write_str(if self.contains(Down) { "D" } else { " " })
         }
     }
 }
