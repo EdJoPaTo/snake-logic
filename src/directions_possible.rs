@@ -80,26 +80,26 @@ impl DirectionsPossible {
 }
 
 impl core::fmt::Display for DirectionsPossible {
-    fn fmt(&self, f: &mut core::fmt::Formatter<'_>) -> core::fmt::Result {
+    fn fmt(&self, fmt: &mut core::fmt::Formatter<'_>) -> core::fmt::Result {
         if self.is_empty() {
-            f.write_str("None")
+            fmt.write_str("None")
         } else {
-            f.write_str(if self.contains(Direction::Left) {
+            fmt.write_str(if self.contains(Direction::Left) {
                 "L"
             } else {
                 " "
             })?;
-            f.write_str(if self.contains(Direction::Right) {
+            fmt.write_str(if self.contains(Direction::Right) {
                 "R"
             } else {
                 " "
             })?;
-            f.write_str(if self.contains(Direction::Up) {
+            fmt.write_str(if self.contains(Direction::Up) {
                 "U"
             } else {
                 " "
             })?;
-            f.write_str(if self.contains(Direction::Down) {
+            fmt.write_str(if self.contains(Direction::Down) {
                 "D"
             } else {
                 " "
