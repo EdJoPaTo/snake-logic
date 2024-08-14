@@ -1,4 +1,4 @@
-name: Test and Build Rust
+name: Rust
 
 on:
   push:
@@ -12,29 +12,26 @@ jobs:
   rustfmt:
     runs-on: ubuntu-latest
     steps:
-      - name: Setup Rust
-        uses: dtolnay/rust-toolchain@master
+      - uses: dtolnay/rust-toolchain@stable
         with:
-          toolchain: stable
           components: rustfmt
       - uses: actions/checkout@v4
       - run: cargo fmt --check --verbose
 
   clippy:
-    name: Clippy ${{ matrix.toolchain }}
     runs-on: ubuntu-latest
-    continue-on-error: ${{ matrix.toolchain == 'nightly' }}
+    continue-on-error: ${{ (matrix.toolchain == 'beta') || (matrix.toolchain == 'nightly') }}
     strategy:
       fail-fast: false
       matrix:
         toolchain:
           - stable
+          - beta
           - nightly
     env:
       RUSTFLAGS: --deny warnings
     steps:
-      - name: Setup Rust
-        uses: dtolnay/rust-toolchain@master
+      - uses: dtolnay/rust-toolchain@master
         with:
           toolchain: ${{ matrix.toolchain }}
           components: clippy
@@ -43,15 +40,14 @@ jobs:
       - run: cargo clippy --offline --all-features --all-targets
       - run: cargo doc --offline --all-features --no-deps
 
-
   features:
-    name: Features ${{ matrix.toolchain }} ${{ matrix.os }}
     runs-on: ${{ matrix.os }}
     strategy:
       fail-fast: false
       matrix:
         toolchain:
           - stable
+          - beta
         os:
           - ubuntu-latest
           - macos-latest
@@ -59,15 +55,10 @@ jobs:
     env:
       RUSTFLAGS: --allow unknown-lints --deny warnings
     steps:
-      - name: Setup Rust
-        uses: dtolnay/rust-toolchain@master
+      - uses: dtolnay/rust-toolchain@master
         with:
           toolchain: ${{ matrix.toolchain }}
-
-      - name: Install cargo-hack
-        uses: taiki-e/install-action@v2
-        with:
-          tool: cargo-hack
+      - uses: taiki-e/install-action@cargo-hack
 
       - uses: actions/checkout@v4
       - run: cargo fetch
@@ -75,12 +66,9 @@ jobs:
       - name: Check all targets
         run: cargo hack --keep-going --feature-powerset check --all-targets --offline
 
-
-  github-release:
+  release:
     name: Release ${{ matrix.triple }}
     runs-on: ${{ matrix.os }}
-    needs:
-      - features
     strategy:
       fail-fast: false
       matrix:
@@ -106,12 +94,10 @@ jobs:
           - triple: aarch64-pc-windows-msvc
             os: windows-latest
     env:
-      RUSTFLAGS: --allow unknown-lints --deny warnings
+      RUSTFLAGS: --deny warnings
     steps:
-      - name: Setup Rust
-        uses: dtolnay/rust-toolchain@master
+      - uses: dtolnay/rust-toolchain@stable
         with:
-          toolchain: stable
           targets: ${{ matrix.triple }}
 
       - name: Install cargo tools
@@ -123,5 +109,4 @@ jobs:
       - uses: actions/checkout@v4
       - run: cargo fetch
 
-      - name: Build
-        run: ${{ runner.os == 'Linux' && 'cross' || 'cargo' }} build --release --offline --target ${{ matrix.triple }}
+      - run: ${{ runner.os == 'Linux' && 'cross' || 'cargo' }} build --release --offline --target ${{ matrix.triple }}
