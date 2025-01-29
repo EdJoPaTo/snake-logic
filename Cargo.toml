@@ -6,7 +6,7 @@ license = "MIT"
 repository = "https://github.com/EdJoPaTo/snake-logic"
 authors = ["EdJoPaTo <snake-logic-rust@edjopato.de>", "pz1337 <32294625+pz1337@users.noreply.github.com>"]
 edition = "2021"
-rust-version = "1.58"
+rust-version = "1.63"
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
 [[example]]
@@ -25,4 +25,4 @@ pedantic = "warn"
 nursery = "warn"
 
 [dependencies]
-rand = { version = "0.8", optional = true }
+rand = { version = "0.9", optional = true, default-features = false, features = ["thread_rng"] }

@@ -15,9 +15,9 @@ impl Point {
     #[must_use]
     pub fn random(width: u8, height: u8) -> Self {
         use rand::Rng;
-        let mut rng = rand::thread_rng();
-        let x = rng.gen_range(0..width - 1);
-        let y = rng.gen_range(0..height - 1);
+        let mut rng = rand::rng();
+        let x = rng.random_range(0..width - 1);
+        let y = rng.random_range(0..height - 1);
         Self { x, y }
     }
 }
