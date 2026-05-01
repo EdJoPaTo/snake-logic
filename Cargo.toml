@@ -25,4 +25,4 @@ pedantic = "warn"
 nursery = "warn"
 
 [dependencies]
-rand = { version = "0.9", optional = true, default-features = false, features = ["thread_rng"] }
+rand = { version = "0.10", optional = true, default-features = false, features = ["thread_rng"] }
