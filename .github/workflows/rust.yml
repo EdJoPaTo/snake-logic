@@ -9,7 +9,7 @@ jobs:
   rustfmt:
     runs-on: ubuntu-latest
     steps:
-      - uses: dtolnay/rust-toolchain@stable
+      - uses: dtolnay/rust-toolchain@nightly
         with:
           components: rustfmt
       - uses: actions/checkout@v7
@@ -44,8 +44,7 @@ jobs:
       matrix:
         toolchain:
           - stable
-          - beta
-          - '1.63'
+          - "1.85"
         os:
           - ubuntu-latest
           - macos-latest
@@ -105,6 +104,6 @@ jobs:
           tool: cross
 
       - uses: actions/checkout@v7
-      - run: cargo fetch
+      - run: cargo fetch --locked
 
-      - run: ${{ runner.os == 'Linux' && 'cross' || 'cargo' }} build --release --offline --target ${{ matrix.triple }}
+      - run: ${{ runner.os == 'Linux' && 'cross' || 'cargo' }} build --release --offline --target ${{ matrix.triple }} --all-features

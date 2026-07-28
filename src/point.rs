@@ -14,7 +14,7 @@ impl Point {
     #[cfg(feature = "rand")]
     #[must_use]
     pub fn random(width: u8, height: u8) -> Self {
-        use rand::Rng;
+        use rand::Rng as _;
         let mut rng = rand::rng();
         let x = rng.random_range(0..width - 1);
         let y = rng.random_range(0..height - 1);

@@ -5,8 +5,8 @@ version = "0.4.1"
 license = "MIT"
 repository = "https://github.com/EdJoPaTo/snake-logic"
 authors = ["EdJoPaTo <snake-logic-rust@edjopato.de>", "pz1337 <32294625+pz1337@users.noreply.github.com>"]
-edition = "2021"
-rust-version = "1.63"
+edition = "2024"
+rust-version = "1.85"
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
 [[example]]
@@ -20,9 +20,13 @@ std = []
 
 [lints.rust]
 unsafe_code = "forbid"
+unused_qualifications = "warn"
 [lints.clippy]
-pedantic = "warn"
-nursery = "warn"
+pedantic = { level = "warn", priority = -1 }
+nursery = { level = "warn", priority = -1 }
+allow_attributes = "warn"
+min_ident_chars = "warn"
+unused_trait_names = "warn"
 
 [dependencies]
 rand = { version = "0.9", optional = true, default-features = false, features = ["thread_rng"] }

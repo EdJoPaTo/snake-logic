@@ -64,7 +64,6 @@ fn repeat_previous(snake: &[Point], possible: DirectionsPossible) -> Option<Dire
                 Direction::Down
             }
         } else {
-            #[allow(clippy::collapsible_else_if)]
             if behind.x > headwards.x {
                 Direction::Left
             } else {

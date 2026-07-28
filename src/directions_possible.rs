@@ -1,7 +1,7 @@
 use crate::direction::Direction;
 
 /// State which directions are possible or not.
-#[allow(clippy::struct_excessive_bools)]
+#[expect(clippy::struct_excessive_bools)]
 #[derive(Clone, Copy)]
 pub struct DirectionsPossible {
     options: usize,
@@ -11,7 +11,7 @@ pub struct DirectionsPossible {
     down: bool,
 }
 
-#[allow(clippy::fn_params_excessive_bools)]
+#[expect(clippy::fn_params_excessive_bools)]
 impl DirectionsPossible {
     #[must_use]
     pub const fn from_bools(left: bool, right: bool, up: bool, down: bool) -> Self {
@@ -39,11 +39,7 @@ impl DirectionsPossible {
     /// When no or more than one Direction is possible, `None` is returned.
     #[must_use]
     pub const fn single(&self) -> Option<Direction> {
-        if self.options == 1 {
-            self.any()
-        } else {
-            None
-        }
+        if self.options == 1 { self.any() } else { None }
     }
 
     /// Returns any of the possible [`Direction`s](crate::Direction).

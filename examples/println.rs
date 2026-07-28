@@ -3,7 +3,7 @@
 use core::time::Duration;
 use std::thread::sleep;
 
-use snake_logic::{get_next_point, Point};
+use snake_logic::{Point, get_next_point};
 
 fn print_field(width: u8, height: u8, snake: &[Point], food: Point) {
     print!("   ");
